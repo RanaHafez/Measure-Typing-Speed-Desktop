@@ -64,12 +64,51 @@ def count_down(count):
         accuracy_value.config(text=accuracy)
         net_wpm = round(((total_chars / 5) - incorrect)/1)
         net_wpm_value.config(text=net_wpm)
+        user_entry.delete("1.0", END)
+        user_entry.config(state="disabled")
         showinfo(
             title="Done", message="Done"
         )
+        restart_button.grid(column=1, row=7)
+
+
+
+def restart():
+    global total_chars
+    global words_index
+    global incorrect
+    global correct
+    global words_index
+    global words_list
+    total_chars = 0
+    words_index = 0
+    incorrect = 0
+    correct = 0
+    words_index = 0
+    clock_label.config(text="0")
+    words_per_minute_value.config(text="")
+    accuracy_value.config(text="0")
+    start_button.config(state="normal")
+    response = requests.get("https://random-word-api.herokuapp.com//word?number=500")
+    words_list = response.json()
+    word_label.config(state="normal")
+    word_label.delete("1.0", END)
+    word_label.insert("1.0", words_list[words_index])
+    word_label.tag_add("hg", "1.0", "5.0")
+    word_label.tag_config("hg", background="#FFC0D3")
+    word_label.config(state="disabled")
+
+    user_entry.focus()
+    user_entry.delete("1.0", END)
+    user_entry.mark_set("insert", "1.0")
+    user_entry.tag_add("start", "1.0", "5.0")
+    user_entry.tag_config("start", background="#FDEFF4")
+    user_entry.config(state="disabled")
+
 
 
 def start_timer():
+    start_button.config(state="disabled")
     user_entry.config(state="normal")
     count_down(1*60)
 
@@ -135,4 +174,8 @@ user_entry.bind("<Key>", func=move_tag)
 user_entry.bind("<Return>", func=return_pressed)
 start_button = Button(text="Start Typing", bg="#FF5C8D", fg="#FDEFF4" ,command=start_timer, pady=10)
 start_button.grid(column=1, row=6)
+
+
+restart_button = Button(text="Restart Timer", bg="#FF5C8D", fg="#FDEFF4" ,command=restart, pady=10)
+# restart_button.grid(column=1, row=6)
 window.mainloop()
