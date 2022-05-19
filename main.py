@@ -12,7 +12,6 @@ correct = 0
 
 def move_tag(event):
     index = len(user_entry.get("1.0", END))
-    print(index)
     if event.char == " ":
         show_another_word()
     else:
