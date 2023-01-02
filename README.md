@@ -13,4 +13,6 @@
 
 ![img_1.png](img_1.png)
 
+![typing-speed.gif](typing-speed.gif)
+
 ## Rana Hafez(2022)
